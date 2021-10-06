@@ -19,7 +19,7 @@ func NewFoodAPI() recipesAPI.Repository {
 	}
 }
 
-func (s spoonacularAPI) GetRecipeAPI(name string) ([]*recipesAPI.Domain, error) {
+func (s spoonacularAPI) GetRecipeAPI(name string) ([]recipesAPI.Domain, error) {
 	apiKey := "dd6eecd6e5694ba2af2e94916aeed314"
 	endpoint := fmt.Sprintf("https://api.spoonacular.com/recipes/complexSearch?apiKey=%s&query=%s&addRecipeInformation=True&", apiKey, name)
 	log.Println(endpoint)
@@ -30,7 +30,7 @@ func (s spoonacularAPI) GetRecipeAPI(name string) ([]*recipesAPI.Domain, error) 
 	}
 	responseData, _ := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		panic(err)
+		panic(err)	
 	}
 	defer resp.Body.Close()
 	food := RecipeSource{}
@@ -39,16 +39,5 @@ func (s spoonacularAPI) GetRecipeAPI(name string) ([]*recipesAPI.Domain, error) 
 		panic(err)
 	}
 
-	return toListDomain(&food), nil
+	return toListDomain(food), nil
 }
-// func (s spoonacularAPI) GetHealthyRecipe(healthy string) (*foods.Domain, error) {
-
-// }
-
-// func (s spoonacularAPI) GetRecipeByCuisine(cuisine string) (*foods.Domain, error) {
-
-// }
-
-// func (s spoonacularAPI) GetRecipeByDiet(diet string) (*foods.Domain, error) {
-
-// }

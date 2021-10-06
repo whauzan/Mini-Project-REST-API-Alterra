@@ -1,7 +1,6 @@
 package food
 
 import (
-	"miniproject/business/recipesAPI"
 	"time"
 )
 
@@ -20,13 +19,13 @@ type Domain struct {
 }
 
 type Service interface {
-	GetRecipeByName(name string) ([]Domain, error)
-	// GetRecipeAPI(name string) (*[]Domain, error)
-	SaveFood(food recipesAPI.Domain) (Domain, error)
-	// GetHealthyRecipe(limit int) (*Domain, error)
+	Create(domain *Domain) (Domain, error)
+	GetAll() ([]Domain, error)
+	GetByID(id int) (Domain, error)
 }
 
 type Repository interface {
-	GetRecipeByName(name string) ([]Domain, error)
-	Insert(food recipesAPI.Domain) (Domain, error)
+	Create(domain *Domain) (Domain, error)
+	GetAll() ([]Domain, error)
+	GetByID(id int) (Domain, error)
 }

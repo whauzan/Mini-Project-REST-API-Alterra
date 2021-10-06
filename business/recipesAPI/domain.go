@@ -13,7 +13,7 @@ type Domain struct {
 }
 
 type Repository interface {
-	GetRecipeAPI(name string) ([]*Domain, error)
+	GetRecipeAPI(name string) ([]Domain, error)
 	// GetHealthyRecipe(healthy string) (*Domain, error)
 	// GetRecipeByCuisine(cuisine string) (*Domain, error)
 	// GetRecipeByDiet(diet string) (*Domain, error)

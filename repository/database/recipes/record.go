@@ -36,15 +36,15 @@ type FoodAPI struct {
 	Diets       string
 }
 
-func toListDomain(record *RecipeSource) []*recipesAPI.Domain {
-	var tempFood []*recipesAPI.Domain
+func toListDomain(record RecipeSource) []recipesAPI.Domain {
+	var tempFood []recipesAPI.Domain
 	var step string
 	for _, value := range record.Result {
 		for _, stepValue := range value.AnalyzedInstructions[0].Steps {
 			step = string(string(rune(stepValue.Number))+". "+stepValue.Step+" ")
 		}
 		// steps, _ := json.Marshal(value.AnalyzedInstructions[0].Steps)
-		tempFood = append(tempFood, &recipesAPI.Domain {
+		tempFood = append(tempFood, recipesAPI.Domain {
 		Name: value.Title, 
 		Photo: value.Image, 
 		Summary: value.Summary,
@@ -55,18 +55,4 @@ func toListDomain(record *RecipeSource) []*recipesAPI.Domain {
 		Step: step})
 	}
 	return tempFood
-}
-
-func fromDomain(record recipesAPI.Domain) FoodAPI {
-	return FoodAPI{
-		ID:          record.ID,
-		Name:        record.Name,
-		Photo:       record.Photo,
-		Summary:     record.Summary,
-		Number:      record.Number,
-		Step:        record.Step,
-		HealthScore: record.HealthScore,
-		DishTypes:   record.DishTypes,
-		Diets:       record.Diets,
-	}
 }

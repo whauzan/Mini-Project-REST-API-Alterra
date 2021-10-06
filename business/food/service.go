@@ -2,6 +2,7 @@ package food
 
 import (
 	"miniproject/business/recipesAPI"
+	"miniproject/business"
 )
 
 type serviceFood struct {
@@ -16,52 +17,45 @@ func NewService(repositoryFood Repository, recipeAPIRepo recipesAPI.Repository) 
 	}
 }
 
-func (service *serviceFood) GetRecipeByName(name string) ([]Domain, error) {
-	result, err := service.repository.GetRecipeByName(name)
-	if err != nil {
-		apiRecipe, err := service.recipeAPIRepo.GetRecipeAPI(name)
-		if err != nil {
-			return []Domain{}, err
-		}
-		var tempFood []Domain
-		for _, value := range apiRecipe {
-			domain, err := service.SaveFood(*value)
-			if err != nil {
-				return []Domain{}, nil
-			}
-			tempFood = append(tempFood, domain)
-		}
-		return tempFood, nil
-	}
-	return result, nil
-}
-
-// func (service *serviceFood) GetRecipeAPI(name string) ([]*Domain, error) {
-// 	result, err := service.recipeAPIRepo.GetRecipeByName(name)
-// 	if err != nil {
-// 		return &[]Domain{}, nil
-// 	}
-// 	var newResult []*Domain
-// 	for _, val := range []*Domain {
-// 		newResult = append(newResult, Domain{
-// 			ID:          result.ID,
-// 			Name:        result.Name,
-// 			Photo:       result.Photo,
-// 			Summary:     result.Summary,
-// 			DishTypes:   result.DishTypes,
-// 			Diets:       result.Diets,
-// 			Number:      result.Number,
-// 			Step:        result.Step,
-// 			HealthScore: result.HealthScore,
-// 		})
-// 	}
-// 	return newResult, nil
+// type MediaService struct {
+// 	repository     Repository
+// 	contextTimeout time.Duration
 // }
 
-func (s serviceFood) SaveFood(food recipesAPI.Domain) (Domain, error) {
-	result, err := s.repository.Insert(food)
+// func NewMediaService(repo Repository, timeout time.Duration) Service {
+// 	return &MediaService{
+// 		repository:     repo,
+// 		contextTimeout: timeout,
+// 	}
+// }
+
+// Business logic for medias crud
+func (service *serviceFood) Create(domain *Domain) (Domain, error) {
+
+	media, err := service.repository.Create(domain)
 	if err != nil {
-		return Domain{}, err
+		return Domain{}, business.ErrInternalServer
 	}
-	return result, nil
+
+	return media, nil
+}
+
+func (service *serviceFood) GetAll() ([]Domain, error) {
+
+	media, _ := service.repository.GetAll()
+	if media == nil {
+		return nil, business.ErrNotFound
+	}
+
+	return media, nil
+}
+
+func (service *serviceFood) GetByID(id int) (Domain, error) {
+
+	media, err := service.repository.GetByID(id)
+	if err != nil {
+		return Domain{}, business.ErrNotFound
+	}
+
+	return media, nil
 }

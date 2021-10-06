@@ -22,14 +22,6 @@ type Food struct {
 	UpdatedAt   time.Time
 }
 
-func toListDomain(record []Food) (result []food.Domain) {
-	result = []food.Domain{}
-	for _, record := range record {
-		result = append(result, toDomain(record))
-	}
-	return result
-}
-
 func toDomain(record Food) food.Domain {
 	return food.Domain{
 		ID:          record.ID,
@@ -46,6 +38,14 @@ func toDomain(record Food) food.Domain {
 	}
 }
 
+func toListDomain(record []Food) (result []food.Domain) {
+	result = []food.Domain{}
+	for _, record := range record {
+		result = append(result, toDomain(record))
+	}
+	return result
+}
+
 func fromDomain(record food.Domain) Food {
 	return Food{
 		ID:          record.ID,
@@ -57,5 +57,7 @@ func fromDomain(record food.Domain) Food {
 		HealthScore: record.HealthScore,
 		DishTypes:   record.DishTypes,
 		Diets:       record.Diets,
+		CreatedAt:   record.CreatedAt,
+		UpdatedAt:   record.UpdatedAt,
 	}
 }

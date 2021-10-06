@@ -2,7 +2,6 @@ package food
 
 import (
 	"miniproject/business/food"
-	"miniproject/business/recipesAPI"
 
 	"gorm.io/gorm"
 )
@@ -17,32 +16,38 @@ func NewRepositoryMySQL(db *gorm.DB) food.Repository {
 	}
 }
 
-func (repository *repositoryFood) GetRecipeByName(name string) ([]food.Domain, error) {
-	// recordFood := Food{}
-	var food []Food
-	res := repository.DB.Where("name LIKE ?", "%"+name+"%")
-	if res.Error != nil {
-		return nil, res.Error
+func (rep *repositoryFood) Create(domain *food.Domain) (food.Domain, error) {
+	foodie := fromDomain(*domain)
+	if foodie.ID == 0 {
+		return food.Domain{}, nil
 	}
-	return toListDomain(food), nil
-	// if err := repository.DB.Where("name LIKE ?", "%"+name+"%").Error; err != nil {
-	// 	return []*food.Domain{}, err
-	// }
-	// var result  = toListDomain(recordFood)
-	// return result, nil
+	result := rep.DB.Create(&foodie)
+
+	if result.Error != nil {
+		return food.Domain{}, result.Error
+	}
+
+	return toDomain(foodie), nil
 }
 
-func (repository *repositoryFood) Insert(foodie recipesAPI.Domain) (food.Domain, error) {
-	// recordFood := fromDomain(*food)
-	var food Food
-	res := repository.DB.Create(&foodie)
-	if res.Error != nil {
-		return toDomain(food), res.Error
+func (rep *repositoryFood) GetAll() ([]food.Domain, error) {
+	var foodie []Food
+	result := rep.DB.Find(&foodie)
+
+	if result.Error != nil {
+		return nil, result.Error
 	}
-	// if err := repository.DB.Create(&recordFood).Error; err != nil {
-	// 	return food.Domain{}, err
-	// }
-	// result := toDomain(recordFood)
-	// return &result, nil
-	return toDomain(food), nil
+
+	return toListDomain(foodie), nil
+}
+
+func (rep *repositoryFood) GetByID(id int) (food.Domain, error) {
+	var foodie Food
+	result := rep.DB.First(&foodie, "ID = ?", id)
+
+	if result.Error != nil {
+		return food.Domain{}, result.Error
+	}
+
+	return toDomain(foodie), nil
 }

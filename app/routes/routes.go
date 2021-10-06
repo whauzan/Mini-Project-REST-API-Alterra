@@ -1,17 +1,16 @@
 package routes
 
 import (
-	"miniproject/app/presenter/food"
+	"miniproject/app/presenter/foodAPI"
 
 	"github.com/labstack/echo/v4"
 )
 
 type HandlerList struct {
-	OpenAPIHandler food.Presenter
+	FoodAPIHandler foodAPI.FoodAPIHandler
 }
 
 func (handler *HandlerList) RouteReg(e *echo.Echo) {
 	api := e.Group("foodie/v1")
-	api.GET("/food/", handler.OpenAPIHandler.GetRecipeByName)
-	api.POST("/food/save", handler.OpenAPIHandler.SaveFood)
+	api.GET("/foodSearch/", handler.FoodAPIHandler.GetRecipeAPI)
 }
