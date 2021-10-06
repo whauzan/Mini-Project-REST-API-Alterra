@@ -4,6 +4,7 @@ go 1.17
 
 require (
 	github.com/labstack/echo/v4 v4.6.1
+	gorm.io/driver/mysql v1.1.2
 	gorm.io/gorm v1.21.15
 )
 
@@ -20,5 +21,4 @@ require (
 	golang.org/x/net v0.0.0-20210913180222-943fd674d43e // indirect
 	golang.org/x/sys v0.0.0-20210910150752-751e447fb3d0 // indirect
 	golang.org/x/text v0.3.7 // indirect
-	gorm.io/driver/mysql v1.1.2 // indirect
 )

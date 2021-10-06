@@ -16,45 +16,52 @@ func NewService(repositoryFood Repository, recipeAPIRepo recipesAPI.Repository) 
 	}
 }
 
-func (service *serviceFood) GetRecipeByName(name string) (*Domain, error) {
+func (service *serviceFood) GetRecipeByName(name string) ([]Domain, error) {
 	result, err := service.repository.GetRecipeByName(name)
 	if err != nil {
-		apiRecipe, err := service.GetRecipeAPI(name)
+		apiRecipe, err := service.recipeAPIRepo.GetRecipeAPI(name)
 		if err != nil {
-			return &Domain{}, err
+			return []Domain{}, err
 		}
-		insert, err := service.SaveFood(apiRecipe)
-		if err != nil {
-			return &Domain{}, nil
+		var tempFood []Domain
+		for _, value := range apiRecipe {
+			domain, err := service.SaveFood(*value)
+			if err != nil {
+				return []Domain{}, nil
+			}
+			tempFood = append(tempFood, domain)
 		}
-		return insert, nil
+		return tempFood, nil
 	}
 	return result, nil
 }
 
-func (service *serviceFood) GetRecipeAPI(name string) (*Domain, error) {
-	result, err := service.recipeAPIRepo.GetRecipeByName(name)
-	if err != nil {
-		return &Domain{}, nil
-	}
-	newResult := Domain{
-		ID:          result.ID,
-		Name:        result.Name,
-		Photo:       result.Photo,
-		Summary:     result.Summary,
-		DishTypes:   result.DishTypes,
-		Diets:       result.Diets,
-		Number:      result.Number,
-		Step:        result.Step,
-		HealthScore: result.HealthScore,
-	}
-	return &newResult, nil
-}
+// func (service *serviceFood) GetRecipeAPI(name string) ([]*Domain, error) {
+// 	result, err := service.recipeAPIRepo.GetRecipeByName(name)
+// 	if err != nil {
+// 		return &[]Domain{}, nil
+// 	}
+// 	var newResult []*Domain
+// 	for _, val := range []*Domain {
+// 		newResult = append(newResult, Domain{
+// 			ID:          result.ID,
+// 			Name:        result.Name,
+// 			Photo:       result.Photo,
+// 			Summary:     result.Summary,
+// 			DishTypes:   result.DishTypes,
+// 			Diets:       result.Diets,
+// 			Number:      result.Number,
+// 			Step:        result.Step,
+// 			HealthScore: result.HealthScore,
+// 		})
+// 	}
+// 	return newResult, nil
+// }
 
-func (s *serviceFood) SaveFood(food *Domain) (*Domain, error) {
+func (s serviceFood) SaveFood(food recipesAPI.Domain) (Domain, error) {
 	result, err := s.repository.Insert(food)
 	if err != nil {
-		return &Domain{}, err
+		return Domain{}, err
 	}
 	return result, nil
 }

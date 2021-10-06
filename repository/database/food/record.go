@@ -2,6 +2,7 @@ package food
 
 import (
 	"miniproject/business/food"
+	"time"
 
 	"gorm.io/gorm"
 )
@@ -17,6 +18,16 @@ type Food struct {
 	HealthScore float64
 	DishTypes   string
 	Diets       string
+	CreatedAt   time.Time
+	UpdatedAt   time.Time
+}
+
+func toListDomain(record []Food) (result []food.Domain) {
+	result = []food.Domain{}
+	for _, record := range record {
+		result = append(result, toDomain(record))
+	}
+	return result
 }
 
 func toDomain(record Food) food.Domain {
@@ -35,7 +46,7 @@ func toDomain(record Food) food.Domain {
 	}
 }
 
-func fromDomain(record Food) food.Domain {
+func fromDomain(record food.Domain) Food {
 	return Food{
 		ID:          record.ID,
 		Name:        record.Name,

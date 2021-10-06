@@ -2,12 +2,12 @@ package main
 
 import (
 	"log"
+	_foodHandler "miniproject/app/presenter/food"
 	"miniproject/app/routes"
+	_foodService "miniproject/business/food"
 	_foodRepo "miniproject/repository/database/food"
 	_apiRepo "miniproject/repository/database/recipes"
 	_dbDriver "miniproject/repository/mysql"
-	_foodService "miniproject/business/food"
-	_foodHandler "miniproject/app/presenter/food"
 
 	"github.com/labstack/echo/v4"
 	"gorm.io/gorm"
@@ -15,7 +15,7 @@ import (
 
 func dbMigrate(db *gorm.DB) {
 	db.AutoMigrate(
-		&_apiRepo.Food{},
+		&_foodRepo.Food{},
 	)
 }
 
@@ -27,7 +27,7 @@ func main() {
 		DB_Port:     "3306",
 		DB_Database: "miniproject",
 	}
-	db := configDB.InitalDB()
+	db := configDB.InitialDB()
 	dbMigrate(db)
 
 	e := echo.New()
