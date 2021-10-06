@@ -1,0 +1,20 @@
+package recipesAPI
+
+type Domain struct {
+	ID int
+	Name string
+	Photo string
+	Summary string
+	Number int
+	Step string
+	HealthScore float64
+	DishTypes string
+	Diets string
+}
+
+type Repository interface {
+	GetRecipeByName(name string) (*Domain, error)
+	// GetHealthyRecipe(healthy string) (*Domain, error)
+	// GetRecipeByCuisine(cuisine string) (*Domain, error)
+	// GetRecipeByDiet(diet string) (*Domain, error)
+}
