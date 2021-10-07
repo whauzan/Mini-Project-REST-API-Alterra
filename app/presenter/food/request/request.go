@@ -2,8 +2,13 @@ package request
 
 import "miniproject/business/food"
 
-type FoodCreate struct {
-	Food_ID string `json:"food_id"`
+// type FoodCreate struct {
+// 	Food_ID string `json:"food_id"`
+// }
+
+type FoodSave struct {
+	Food_ID int `json:"food_id"`
+	Food_Name string `json:"food_name"`
 }
 
 type Food struct {

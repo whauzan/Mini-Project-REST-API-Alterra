@@ -10,7 +10,9 @@ import (
 	_foodAPIHandler "miniproject/app/presenter/foodAPI"
 	_apiRepo "miniproject/repository/database/recipes"
 	_dbDriver "miniproject/repository/mysql"
-
+	_foodService "miniproject/business/food"
+	_foodHandler "miniproject/app/presenter/food"
+	_foodRepo "miniproject/repository/database/food"
 	_middleware "miniproject/app/middleware"
 	_routes "miniproject/app/routes"
 
@@ -35,17 +37,11 @@ func init() {
 func dbMigrate(db *gorm.DB) {
 	db.AutoMigrate(
 		&_userRepo.Users{},
+		&_foodRepo.Food{},
 	)
 }
 
 func main() {
-	// configDB := _dbDriver.ConfigDB{
-	// 	DB_Username: "root",
-	// 	DB_Password: "whr1728",
-	// 	DB_Host:     "localhost",
-	// 	DB_Port:     "3306",
-	// 	DB_Database: "miniproject",
-	// }
 	configDB := _dbDriver.ConfigDB {
 		DB_Username: viper.GetString(`database.user`),
 		DB_Password: viper.GetString(`database.pass`),
@@ -69,10 +65,14 @@ func main() {
 	userHandler := _userHandler.NewUserHandler(userService)
 	apiRepo := _apiRepo.NewFoodAPI()
 	foodAPIHandler := _foodAPIHandler.NewFoodAPIHandler(apiRepo)
+	foodRepo := _foodRepo.NewRepositoryMySQL(db)
+	foodService := _foodService.NewService(foodRepo, apiRepo)
+	foodHandler := _foodHandler.NewFoodHandler(foodService)
 
 	routesInit := _routes.HandlerList{
 		UserHandler: *userHandler,
 		FoodAPIHandler: *foodAPIHandler,
+		FoodHandler:    *foodHandler,
 	}
 
 	routesInit.RouteRegister(e)

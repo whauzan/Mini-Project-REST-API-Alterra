@@ -2,7 +2,6 @@ package food
 
 import (
 	"miniproject/business/recipesAPI"
-	"miniproject/business"
 )
 
 type serviceFood struct {
@@ -17,32 +16,50 @@ func NewService(repositoryFood Repository, recipeAPIRepo recipesAPI.Repository) 
 	}
 }
 
-func (service *serviceFood) Create(domain *Domain) (Domain, error) {
 
-	media, err := service.repository.Create(domain)
+// func (service *serviceFood) GetAll() ([]Domain, error) {
+
+// 	media, _ := service.repository.GetAll()
+// 	if media == nil {
+// 		return nil, business.ErrNotFound
+// 	}
+
+// 	return media, nil
+// }
+
+// func (service *serviceFood) GetByID(id int) (Domain, error) {
+
+// 	media, err := service.repository.GetByID(id)
+// 	if err != nil {
+// 		return Domain{}, business.ErrNotFound
+// 	}
+
+// 	return media, nil
+// }
+
+func (service *serviceFood) SaveFood(name string, id int) (Domain, error) {
+	APIFood, err := service.recipeAPIRepo.GetRecipeAPI(name)
+	var result Domain
 	if err != nil {
-		return Domain{}, business.ErrInternalServer
+		for _, value := range APIFood {
+			newRes := Domain{
+				ID:          value.ID,
+				Name:        value.Name,
+				Photo:       value.Photo,
+				Summary:     value.Summary,
+				Step:        value.Step,
+				HealthScore: value.HealthScore,
+				DishTypes:   value.DishTypes,
+				Diets:       value.Diets,
+			}
+			if newRes.ID == id {
+				result, err = service.repository.Insert(&newRes)
+				if err != nil {
+					return Domain{}, err
+				}
+				return result, nil
+			}
+		}
 	}
-
-	return media, nil
-}
-
-func (service *serviceFood) GetAll() ([]Domain, error) {
-
-	media, _ := service.repository.GetAll()
-	if media == nil {
-		return nil, business.ErrNotFound
-	}
-
-	return media, nil
-}
-
-func (service *serviceFood) GetByID(id int) (Domain, error) {
-
-	media, err := service.repository.GetByID(id)
-	if err != nil {
-		return Domain{}, business.ErrNotFound
-	}
-
-	return media, nil
+	return result, nil
 }
