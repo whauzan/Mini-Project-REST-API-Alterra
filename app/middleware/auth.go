@@ -1,7 +1,7 @@
 package middleware
 
 import (
-	"miniproject/controller"
+	"miniproject/app/presenter"
 	"net/http"
 	"time"
 
@@ -25,8 +25,8 @@ func (jwtConf *ConfigJWT) Init() middleware.JWTConfig {
 	return middleware.JWTConfig{
 		Claims:     &JwtCustomClaims{},
 		SigningKey: []byte(jwtConf.SecretJWT),
-		ErrorHandlerWithContext: middleware.JWTErrorHandlerWithContext(func(e error, c echo.Context) error {
-			return controller.NewErrorResponse(c, http.StatusForbidden, e)
+		ErrorHandlerWithContext: middleware.JWTErrorHandlerWithContext(func(e error, ctx echo.Context) error {
+			return presenter.NewErrorResponse(ctx, http.StatusForbidden, e)
 		}),
 	}
 }

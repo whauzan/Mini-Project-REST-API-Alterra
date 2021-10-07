@@ -1,19 +1,19 @@
 package routes
 
 import (
-	"miniproject/controller/users"
+	"miniproject/app/presenter/user"
 
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 )
 
-type ControllerList struct {
+type HandlerList struct {
 	JWTMiddleware  middleware.JWTConfig
-	UserController users.UserController
+	UserHandler user.UserHandler
 }
 
-func (ctrlList *ControllerList) RouteRegister(e *echo.Echo) {
+func (handlerList *HandlerList) RouteRegister(e *echo.Echo) {
 	usr := e.Group("users")
-	usr.POST("/register", ctrlList.UserController.Register)
-	usr.POST("/login", ctrlList.UserController.Login)
+	usr.POST("/register", handlerList.UserHandler.Register)
+	usr.POST("/login", handlerList.UserHandler.Login)
 }

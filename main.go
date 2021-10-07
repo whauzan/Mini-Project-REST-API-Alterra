@@ -4,7 +4,7 @@ import (
 	"log"
 
 	_userService "miniproject/business/users"
-	_userController "miniproject/controller/users"
+	_userHandler "miniproject/app/presenter/user"
 	_driverFactory "miniproject/repository"
 	_userRepo "miniproject/repository/database/users"
 
@@ -65,10 +65,10 @@ func main() {
 
 	userRepo := _driverFactory.NewUserRepository(db)
 	userService := _userService.NewUserService(userRepo, 10, &configJWT)
-	userCtrl := _userController.NewUserController(userService)
+	userHandler := _userHandler.NewUserHandler(userService)
 
-	routesInit := _routes.ControllerList{
-		UserController: *userCtrl,
+	routesInit := _routes.HandlerList{
+		UserHandler: *userHandler,
 	}
 
 	routesInit.RouteRegister(e)
