@@ -2,6 +2,7 @@ package recipes
 
 import (
 	// "encoding/json"
+	"fmt"
 	"miniproject/business/recipesAPI"
 	"strings"
 )
@@ -40,18 +41,19 @@ func toListDomain(record RecipeSource) []recipesAPI.Domain {
 	var step string
 	for _, value := range record.Result {
 		for _, stepValue := range value.AnalyzedInstructions[0].Steps {
-			step = string(string(rune(stepValue.Number))+". "+stepValue.Step+"\n")
+			tempStep := string(fmt.Sprint(stepValue.Number) + ". " + stepValue.Step + " ")
+			step = step + tempStep
 		}
 		// steps, _ := json.Marshal(value.AnalyzedInstructions[0].Steps)
-		tempFood = append(tempFood, recipesAPI.Domain {
-		Name: value.Title, 
-		Photo: value.Image, 
-		Summary: value.Summary,
-		DishTypes: strings.Join(value.DishTypes[:],", "),
-		Diets: strings.Join(value.Diets[:], ", "),
-		// Step: string(steps),
-		HealthScore: value.HealthScore,
-		Step: step})
+		tempFood = append(tempFood, recipesAPI.Domain{
+			Name:      value.Title,
+			Photo:     value.Image,
+			Summary:   value.Summary,
+			DishTypes: strings.Join(value.DishTypes[:], ", "),
+			Diets:     strings.Join(value.Diets[:], ", "),
+			// Step: string(steps),
+			HealthScore: value.HealthScore,
+			Step:        step})
 	}
 	return tempFood
 }
