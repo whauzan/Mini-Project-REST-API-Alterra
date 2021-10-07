@@ -9,7 +9,6 @@ type Domain struct {
 	Name        string
 	Photo       string
 	Summary     string
-	Number      int
 	Step        string
 	HealthScore float64
 	DishTypes   string
@@ -19,13 +18,13 @@ type Domain struct {
 }
 
 type Service interface {
-	Create(domain *Domain) (Domain, error)
-	GetAll() ([]Domain, error)
-	GetByID(id int) (Domain, error)
+	// GetAll() ([]Domain, error)
+	// GetByID(id int) (Domain, error)
+	SaveFood(name string, id int) (Domain, error)
 }
 
 type Repository interface {
-	Create(domain *Domain) (Domain, error)
-	GetAll() ([]Domain, error)
-	GetByID(id int) (Domain, error)
+	// GetAll() ([]Domain, error)
+	// GetByID(id int) (Domain, error)
+	Insert(food *Domain) (Domain, error)
 }

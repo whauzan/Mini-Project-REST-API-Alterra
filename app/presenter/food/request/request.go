@@ -2,8 +2,13 @@ package request
 
 import "miniproject/business/food"
 
-type FoodCreate struct {
-	Food_ID string `json:"food_id"`
+// type FoodCreate struct {
+// 	Food_ID string `json:"food_id"`
+// }
+
+type FoodSave struct {
+	Food_ID int `json:"food_id"`
+	Food_Name string `json:"food_name"`
 }
 
 type Food struct {
@@ -11,7 +16,6 @@ type Food struct {
 	Name        string  `json:"name"`
 	Photo       string  `json:"photo"`
 	Summary     string  `json:"summary"`
-	Number      int     `json:"number"`
 	Step        string  `json:"step"`
 	HealthScore float64 `json:"healthsore"`
 	DishTypes   string  `json:"dishtypes"`
@@ -23,7 +27,6 @@ func (request *Food) ToDomain() *food.Domain {
 		Name:        request.Name,
 		Photo:       request.Photo,
 		Summary:     request.Summary,
-		Number:      request.Number,
 		Step:        request.Step,
 		HealthScore: request.HealthScore,
 		DishTypes:   request.DishTypes,
