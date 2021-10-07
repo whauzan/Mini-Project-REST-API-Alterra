@@ -29,7 +29,6 @@ type FoodAPI struct {
 	Name        string
 	Photo       string
 	Summary     string
-	Number      int
 	Step        string
 	HealthScore float64
 	DishTypes   string
@@ -41,7 +40,7 @@ func toListDomain(record RecipeSource) []recipesAPI.Domain {
 	var step string
 	for _, value := range record.Result {
 		for _, stepValue := range value.AnalyzedInstructions[0].Steps {
-			step = string(string(rune(stepValue.Number))+". "+stepValue.Step+" ")
+			step = string(string(rune(stepValue.Number))+". "+stepValue.Step+"\n")
 		}
 		// steps, _ := json.Marshal(value.AnalyzedInstructions[0].Steps)
 		tempFood = append(tempFood, recipesAPI.Domain {

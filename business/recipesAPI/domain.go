@@ -5,7 +5,6 @@ type Domain struct {
 	Name string
 	Photo string
 	Summary string
-	Number int
 	Step string
 	HealthScore float64
 	DishTypes string
