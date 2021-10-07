@@ -15,20 +15,20 @@ type BaseResponse struct {
 	Data interface{} `json:"data"`
 }
 
-func NewSuccessResponse(c echo.Context, param interface{}) error {
+func NewSuccessResponse(ctx echo.Context, param interface{}) error {
 	response := BaseResponse{}
 	response.Meta.Status = http.StatusOK
 	response.Meta.Message = "Success"
 	response.Data = param
 
-	return c.JSON(http.StatusOK, response)
+	return ctx.JSON(http.StatusOK, response)
 }
 
-func NewErrorResponse(c echo.Context, status int, err error) error {
+func NewErrorResponse(ctx echo.Context, status int, err error) error {
 	response := BaseResponse{}
 	response.Meta.Status = status
 	response.Meta.Message = "Error occured"
 	response.Meta.Messages = []string{err.Error()}
 
-	return c.JSON(status, response)
+	return ctx.JSON(status, response)
 }

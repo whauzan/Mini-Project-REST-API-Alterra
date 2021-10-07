@@ -7,7 +7,8 @@ import (
 	_userHandler "miniproject/app/presenter/user"
 	_driverFactory "miniproject/repository"
 	_userRepo "miniproject/repository/database/users"
-
+	_foodAPIHandler "miniproject/app/presenter/foodAPI"
+	_apiRepo "miniproject/repository/database/recipes"
 	_dbDriver "miniproject/repository/mysql"
 
 	_middleware "miniproject/app/middleware"
@@ -66,9 +67,12 @@ func main() {
 	userRepo := _driverFactory.NewUserRepository(db)
 	userService := _userService.NewUserService(userRepo, 10, &configJWT)
 	userHandler := _userHandler.NewUserHandler(userService)
+	apiRepo := _apiRepo.NewFoodAPI()
+	foodAPIHandler := _foodAPIHandler.NewFoodAPIHandler(apiRepo)
 
 	routesInit := _routes.HandlerList{
 		UserHandler: *userHandler,
+		FoodAPIHandler: *foodAPIHandler,
 	}
 
 	routesInit.RouteRegister(e)
