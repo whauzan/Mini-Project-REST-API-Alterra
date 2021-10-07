@@ -11,7 +11,6 @@ type Food struct {
 	Name        string  `json:"name"`
 	Photo       string  `json:"photo"`
 	Summary     string  `json:"summary"`
-	Number      int     `json:"number"`
 	Step        string  `json:"step"`
 	HealthScore float64 `json:"healthsore"`
 	DishTypes   string  `json:"dishtypes"`
@@ -23,7 +22,6 @@ func (request *Food) ToDomain() *food.Domain {
 		Name:        request.Name,
 		Photo:       request.Photo,
 		Summary:     request.Summary,
-		Number:      request.Number,
 		Step:        request.Step,
 		HealthScore: request.HealthScore,
 		DishTypes:   request.DishTypes,

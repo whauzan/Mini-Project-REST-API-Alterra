@@ -46,6 +46,7 @@ func toListDomain(record RecipeSource) []recipesAPI.Domain {
 		}
 		// steps, _ := json.Marshal(value.AnalyzedInstructions[0].Steps)
 		tempFood = append(tempFood, recipesAPI.Domain{
+			ID:        value.ID,
 			Name:      value.Title,
 			Photo:     value.Image,
 			Summary:   value.Summary,

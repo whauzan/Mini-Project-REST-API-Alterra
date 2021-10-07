@@ -17,19 +17,6 @@ func NewService(repositoryFood Repository, recipeAPIRepo recipesAPI.Repository) 
 	}
 }
 
-// type MediaService struct {
-// 	repository     Repository
-// 	contextTimeout time.Duration
-// }
-
-// func NewMediaService(repo Repository, timeout time.Duration) Service {
-// 	return &MediaService{
-// 		repository:     repo,
-// 		contextTimeout: timeout,
-// 	}
-// }
-
-// Business logic for medias crud
 func (service *serviceFood) Create(domain *Domain) (Domain, error) {
 
 	media, err := service.repository.Create(domain)
